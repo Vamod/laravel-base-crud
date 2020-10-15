@@ -39,7 +39,20 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        // $movieNew->proprietàtabella = $data['name del input'];
+        if(empty($data['titolo']) || empty($data['regista'])){
+            // per far tornare il form con il valore vecchi, bisogna impostare il value nel form {{old('')}}
+            return back()->withInput();
+        }
+        $movieNew = new Movie;
+        $movieNew->titolo = $data['titolo'];
+        $movieNew->regista = $data['regista'];
+        $movieNew->anno = $data['anno'];
+        $movieNew->trama = $data['trama'];
+        // corrisponde al INSERT INTO
+        $saved = $movieNew->save();
+        // dd($saved);
     }
 
     /**
