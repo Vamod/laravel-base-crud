@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// con questo metodo mi crea in automatico le rotte
+
+
 // movies è il nome della rotta /movies
+// php artisan make:controller --resource NomeController
+// con questo metodo mi crea in automatico le rotte
 Route::resource('movies', 'MovieController');

@@ -40,19 +40,34 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        // $movieNew->proprietàtabella = $data['name del input'];
-        if(empty($data['titolo']) || empty($data['regista'])){
-            // per far tornare il form con il valore vecchi, bisogna impostare il value nel form {{old('')}}
-            return back()->withInput();
-        }
+        $request->validate([
+        'titolo' => 'required|max:100|min:1',
+        'regista' => 'required|max:100|min:4',
+        'anno' => 'required|numeric|min:2|max:3000',
+        'trama' => 'required|min:5|max:3000'
+        ]);
+        // al posto della validation
+
+        // // $movieNew->proprietàtabella = $data['name del input'];
+        // if(empty($data['titolo']) || empty($data['regista'])){
+        //     // per far tornare il form con il valore vecchi, bisogna impostare il value nel form {{old('')}}
+        //     return back()->withInput();
+        // }
         $movieNew = new Movie;
-        $movieNew->titolo = $data['titolo'];
-        $movieNew->regista = $data['regista'];
-        $movieNew->anno = $data['anno'];
-        $movieNew->trama = $data['trama'];
+        // va prima modificato il model movie con fillable
+        $movieNew->fill($data);
+
+        // Alternativa al fill();
+        // $movieNew->titolo = $data['titolo'];
+        // $movieNew->regista = $data['regista'];
+        // $movieNew->anno = $data['anno'];
+        // $movieNew->trama = $data['trama'];
         // corrisponde al INSERT INTO
         $saved = $movieNew->save();
         // dd($saved);
+        if($saved){
+            return redirect()->route('movies.index');
+        }
     }
 
     /**
@@ -61,9 +76,9 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Movie $movie)
     {
-        //
+        return view('show', compact('movie'));
     }
 
     /**
@@ -72,9 +87,9 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Movie $movie)
     {
-        //
+        return view('create', compact('movie'));
     }
 
     /**
@@ -84,9 +99,20 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Movie $movie)
     {
-        //
+        $data = $request->all();
+        // inserire validate
+        $request->validate([
+        'titolo' => 'required|max:100|min:1',
+        'regista' => 'required|max:100|min:4',
+        'anno' => 'required|numeric|min:2|max:3000',
+        'trama' => 'required|min:5|max:3000'
+        ]);
+        // a
+        $movie->update($data);
+
+        return view('show', compact('movie'));
     }
 
     /**
@@ -95,8 +121,9 @@ class MovieController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Movie $movie)
     {
-        //
+        $movie->delete();
+        return redirect()->route('movies.index');
     }
 }
