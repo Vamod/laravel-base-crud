@@ -12,6 +12,7 @@
     @endif
     <div class="container mt-2">
         <form action="{{ (!empty($movie)) ? route('movies.update', $movie->id) : route('movies.store') }}" method="post" class="">
+            {{-- token generato da laravel, si assicura che la chiamata post avvenga tramite un form del sito --}}
             @csrf
             <input name="_method" type="hidden" value="POST">
             @if (!empty($movie))
@@ -34,11 +35,11 @@
             </div>
             <div class="form-group">
                 <label for="trama">Trama</label>
-                <textarea name="trama" class="form-control" id="trama" rows="5">{{(!empty($movie)) ? $movie->trama : old('trama')}}</textarea>
+                <textarea name="trama" class="form-control" id="trama" rows="5"  placeholder="Inserisci la trama">{{(!empty($movie)) ? $movie->trama : old('trama')}}</textarea>
             </div>
             <div class="form-group">
                 {{-- al click manda dati allo store --}}
-                 <button type="submit" class="btn btn-primary">{{(!empty($movie)) ? 'Edit' : 'Create' }}</button>
+                 <button type="submit" class="btn btn-primary">{{(!empty($movie)) ? 'Modify' : 'Create' }}</button>
                 {{-- <input type="submit" value"Invia"> --}}
             </div>
         </form>

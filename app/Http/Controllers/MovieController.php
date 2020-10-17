@@ -15,8 +15,12 @@ class MovieController extends Controller
      */
     public function index()
     {
-      // memorizzo in una variabile la query che posso fare tramite il model
-        $data = Movie::all();
+      // memorizzo in una variabile la query (tutti i dati) tramite il model
+        // $data = Movie::all();
+
+        // ordino la query per ordine alfabetico del titolo
+        $data = Movie::orderby('titolo', 'asc')->get();
+
         return view('index', compact('data'));
 
     }
@@ -54,6 +58,8 @@ class MovieController extends Controller
         //     return back()->withInput();
         // }
         $movieNew = new Movie;
+
+
         // va prima modificato il model movie con fillable
         $movieNew->fill($data);
 

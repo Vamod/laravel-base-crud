@@ -7,7 +7,7 @@
                 <li class="list-group-item">Regista: <strong>{{ $movie->regista }}</strong></li>
                 <li class="list-group-item">Anno: <strong>{{ $movie->anno }}</strong></li>
                 <li class="list-group-item">{{ $movie->trama }}</li>
-                <li class="list-group-item"><a href="{{ route('movies.edit', $movie->id) }}">Edit</a></li>
+                <li class="list-group-item "><a href="{{ route('movies.edit', $movie->id) }}" class="btn btn-success">Edit</a></li>
             </ul>
         </div>
 @endsection
